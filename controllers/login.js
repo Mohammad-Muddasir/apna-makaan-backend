@@ -28,7 +28,7 @@ exports.userLogin = async (req, res) => {
     const currentTime = new Date().toLocaleTimeString(); // Get current time
     // If the password is correct, generate a token and send it back to the client
     const token = jwt.sign(
-      { userId: user._id, email: user.email, role: user.role },
+      { name:user.name , userId: user._id, email: user.email, role: user.role },
       process.env.SECRET_KEY,
       { expiresIn: process.env.LIFE_TIME }
     );

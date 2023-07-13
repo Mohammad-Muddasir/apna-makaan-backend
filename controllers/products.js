@@ -5,44 +5,50 @@ exports.createProduct = async (req, res) => {
     try {
         // createProduct
         const {
-            propertyType,
-            propertyCondition,
-            bedrooms,
-            washrooms,
-            area,
-            city,
-            address,
-            description,
-            type
+          propertyType,
+          propertyCondition,
+          bedrooms,
+          washrooms,
+          area,
+          city,
+          address,
+          description,
+          type,
+          price,
+          phoneNumber,
         } = req.body;
         if (
-            !propertyType ||
-            !propertyCondition ||
-            !bedrooms ||
-            !washrooms ||
-            !area ||
-            !city ||
-            !address ||
-            !description ||
-            !type
+          !propertyType ||
+          !propertyCondition ||
+          !bedrooms ||
+          !washrooms ||
+          !area ||
+          !city ||
+          !address ||
+          !description ||
+          !type ||
+          !price ||
+          !phoneNumber
         ) {
-            return res.status(400).json({
-                success: false,
-                message: "Please Provide All Required Fields",
-            });
+          return res.status(400).json({
+            success: false,
+            message: "Please Provide All Required Fields",
+          });
         }
         const userId = req.userId;
         const product = await Product.create({
-            propertyType,
-            propertyCondition,
-            bedrooms,
-            washrooms,
-            area,
-            city,
-            address,
-            description,
-            userId,
-            type
+          propertyType,
+          propertyCondition,
+          bedrooms,
+          washrooms,
+          area,
+          city,
+          address,
+          description,
+          userId,
+          type,
+          price,
+          phoneNumber,
         });
         return res.status(201).json({
             success: true,
@@ -119,3 +125,31 @@ exports.getPublishProduct = async (req, res) => {
         return res.status(400).json({ success: false, message: error.message });
     }
 };
+exports.deleteProduct = async (req, res) => {
+  try {
+    const productId   = req.params.id;
+    console.log("productId is ====>",productId)
+    if (!productId) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide product ID",
+      });
+    }
+
+    const product = await Product.findOneAndDelete({ _id: productId });
+
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Product deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+

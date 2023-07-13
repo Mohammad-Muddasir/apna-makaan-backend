@@ -11,6 +11,12 @@ const productSchema = new mongoose.Schema({
   bedrooms: {
     type: String,
   },
+  price: {
+    type: String,
+  },
+  phoneNumber: {
+    type: String,
+  },
   washrooms: {
     type: String,
   },

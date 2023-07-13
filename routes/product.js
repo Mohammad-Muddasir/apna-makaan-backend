@@ -4,12 +4,14 @@ const {
   getReviewProduct,
   updateProductType,
   getPublishProduct,
+  deleteProduct,
 } = require("../controllers/products");
 const productRouter = express.Router();
 const auth = require("../middleware/middleware")
 
 productRouter.post("/listing", auth, createProduct);
-productRouter.get("/properties",auth, getReviewProduct);
+productRouter.get("/properties", auth, getReviewProduct);
 productRouter.post("/updateProduct", auth, updateProductType);
-productRouter.get("/publishProperties", auth, getPublishProduct);
+productRouter.get("/publishProperties", getPublishProduct);
+productRouter.delete("/deleteProperties/:id", auth, deleteProduct);
 module.exports = productRouter;
